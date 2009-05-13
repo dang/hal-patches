@@ -16,14 +16,6 @@ diff -uNr hal-0.5.12rc1.ORIG/fdi/policy/10osvendor/99-storage-policy-fixed-drive
 diff -uNr hal-0.5.12rc1.ORIG/fdi/policy/10osvendor/Makefile.am hal-0.5.12rc1/fdi/policy/10osvendor/Makefile.am
 --- hal-0.5.12rc1.ORIG/fdi/policy/10osvendor/Makefile.am	2009-03-08 21:03:32.000000000 +0000
 +++ hal-0.5.12rc1/fdi/policy/10osvendor/Makefile.am	2009-03-08 21:03:55.000000000 +0000
-@@ -2,6 +2,7 @@
- fdidir = $(datadir)/hal/fdi/policy/10osvendor
- 
- dist_fdi_DATA = 			\
-+	10-dockstation.fdi		\
- 	10-input-policy.fdi		\
- 	10-dockstation.fdi		\
- 	10-laptop-panel-mgmt-policy.fdi	\
 @@ -11,7 +12,8 @@
  	10-x11-input.fdi		\
  	15-storage-luks.fdi		\
