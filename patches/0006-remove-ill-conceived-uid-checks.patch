@@ -1,7 +1,7 @@
-diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-storage-mount.c
---- hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c	2009-03-08 21:12:25.000000000 +0000
-+++ hal-0.5.12rc1/tools/hal-storage-mount.c	2009-03-08 21:14:26.000000000 +0000
-@@ -453,7 +453,6 @@
+diff --exclude-from=/home/dang/.scripts/diffrc -up -ruN hal-0.5.13.orig/tools/hal-storage-mount.c hal-0.5.13/tools/hal-storage-mount.c
+--- hal-0.5.13.orig/tools/hal-storage-mount.c	2009-05-27 16:26:03.000000000 -0400
++++ hal-0.5.13/tools/hal-storage-mount.c	2009-07-21 14:45:47.892184197 -0400
+@@ -453,7 +453,6 @@ handle_mount (LibHalContext *hal_ctx, 
  	char mount_options[1024];
  	char **allowed_options;
  	char **given_options;
@@ -9,7 +9,7 @@ diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-s
  	char *mount_dir;
  	GError *err = NULL;
  	char *sout = NULL;
-@@ -465,7 +464,6 @@
+@@ -465,7 +464,6 @@ handle_mount (LibHalContext *hal_ctx, 
  	int na;
  	GString *mount_option_str;
  	gboolean pol_is_fixed;
@@ -17,7 +17,7 @@ diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-s
  	char *action;
  	gboolean is_remount;
  	gboolean explicit_mount_point_given;
-@@ -723,8 +721,6 @@
+@@ -723,8 +721,6 @@ handle_mount (LibHalContext *hal_ctx, 
  		printf ("allowed_options[%d] = '%s'\n", i, allowed_options[i]);
  #endif
  
@@ -26,7 +26,7 @@ diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-s
  	/* check mount options */
  	for (i = 0; given_options[i] != NULL; i++) {
  		char *given = given_options[i];
-@@ -756,8 +752,6 @@
+@@ -756,8 +752,6 @@ handle_mount (LibHalContext *hal_ctx, 
  #ifdef DEBUG
  					printf ("%s with uid %u\n", allow, uid);
  #endif
@@ -35,7 +35,7 @@ diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-s
  					goto option_ok;
  				} else {
  
-@@ -778,24 +772,6 @@
+@@ -778,25 +772,6 @@ handle_mount (LibHalContext *hal_ctx, 
  	if (libhal_drive_is_hotpluggable (drive) || libhal_drive_uses_removable_media (drive))
  		pol_is_fixed = FALSE;
  
@@ -47,12 +47,13 @@ diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-s
 -		/* don't consider uid= on vfat, iso9660, hfs and udf change-uid for the purpose of policy
 -		 * (since these doesn't contain uid/gid bits) 
 -		 */
--		if (strcmp (libhal_volume_get_fstype (volume), "vfat") != 0 &&
--		    strcmp (libhal_volume_get_fstype (volume), "ntfs") != 0 &&
--		    strcmp (libhal_volume_get_fstype (volume), "ntfs-3g") != 0 &&
--		    strcmp (libhal_volume_get_fstype (volume), "iso9660") != 0 &&
--		    strcmp (libhal_volume_get_fstype (volume), "hfs") != 0 &&
--		    strcmp (libhal_volume_get_fstype (volume), "udf") != 0) {
+-		const char *v_fstype;
+-
+-		v_fstype = libhal_volume_get_fstype (volume);
+-		if (v_fstype != NULL && 
+-		    strcmp (v_fstype, "vfat") != 0 && strcmp (v_fstype, "ntfs") != 0 &&
+-		    strcmp (v_fstype, "ntfs-3g") != 0 && strcmp (v_fstype, "iso9660") != 0 && 
+-		    strcmp (v_fstype, "hfs") != 0 && strcmp (v_fstype, "udf") != 0) {
 -			pol_change_uid = wants_to_change_uid;
 -		}
 -	}
@@ -60,7 +61,7 @@ diff -uNr hal-0.5.12rc1.ORIG/tools/hal-storage-mount.c hal-0.5.12rc1/tools/hal-s
  	args[na++] = MOUNT_TYPE_OPT;
  	args[na++] = mount_do_fstype;
  
-@@ -816,21 +792,10 @@
+@@ -817,21 +792,10 @@ handle_mount (LibHalContext *hal_ctx, 
  	args[na++] = NULL;
  
  	if (pol_is_fixed) {
