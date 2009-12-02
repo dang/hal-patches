@@ -1,0 +1,30 @@
+diff --exclude-from=/home/dang/.scripts/diffrc -up -ruN hal-0.5.14.orig/hald/linux/device.c hal-0.5.14/hald/linux/device.c
+--- hal-0.5.14.orig/hald/linux/device.c	2009-11-30 17:01:10.000000000 -0500
++++ hal-0.5.14/hald/linux/device.c	2009-12-02 09:14:32.134120558 -0500
+@@ -1157,12 +1157,12 @@ input_test_abs (HalDevice *d, const char
+ 		{
+ 			num_bits_key = input_str_to_bitmask (s, bitmask_key, sizeof (bitmask_key));
+ 
+-			if (test_bit (BTN_STYLUS, bitmask_key) || test_bit (BTN_TOOL_PEN, bitmask_key)) {
++			if (test_bit (BTN_STYLUS, bitmask_key)) {
+ 				hal_device_add_capability (d, "input.tablet");
+ 				goto out;
+ 			}
+ 
+-			if (test_bit (BTN_TOOL_FINGER, bitmask_key) && !test_bit (BTN_TOOL_PEN, bitmask_key)) {
++			if (test_bit (BTN_TOUCH, bitmask_key)) {
+ 				hal_device_add_capability (d, "input.touchpad");
+ 				goto out;
+ 			}
+@@ -1181,6 +1181,11 @@ input_test_abs (HalDevice *d, const char
+ 				goto out;
+ 			}
+ 		}
++
++		if (test_bit (ABS_PRESSURE, bitmask_abs)) {
++			hal_device_add_capability (d, "input.touchpad");
++			goto out;
++		}
+ 	}
+ out:
+ 	;
