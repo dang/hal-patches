@@ -1,0 +1,12 @@
+diff --exclude-from=/home/dang/.scripts/diffrc -up -ruN hal-0.5.14.orig/hald/util.h hal-0.5.14/hald/util.h
+--- hal-0.5.14.orig/hald/util.h	2009-04-03 10:31:34.000000000 -0400
++++ hal-0.5.14/hald/util.h	2010-01-07 07:55:24.230054001 -0500
+@@ -38,7 +38,7 @@
+ #endif
+ 
+ #define HAL_NAME_MAX 256
+-#define HAL_PATH_MAX 512
++#define HAL_PATH_MAX 4096
+ 
+ gboolean hal_util_remove_trailing_slash (gchar *path);
+ 
