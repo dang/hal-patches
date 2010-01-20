@@ -1,0 +1,19 @@
+diff --exclude-from=/home/dang/.scripts/diffrc -up -ruN hal-0.5.14.orig/hald/linux/probing/probe-input.c hal-0.5.14/hald/linux/probing/probe-input.c
+--- hal-0.5.14.orig/hald/linux/probing/probe-input.c	2009-08-24 08:42:30.000000000 -0400
++++ hal-0.5.14/hald/linux/probing/probe-input.c	2010-01-20 07:50:18.378846295 -0500
+@@ -70,6 +70,7 @@ main (int argc, char *argv[])
+ 	fd = -1;
+ 
+ 	setup_logger ();
++	dbus_error_init (&error);
+ 
+ 	button_type = getenv ("HAL_PROP_BUTTON_TYPE");
+ 	if (button_type == NULL)
+@@ -96,7 +97,6 @@ main (int argc, char *argv[])
+ 	if (udi == NULL)
+ 		goto out;
+ 
+-	dbus_error_init (&error);
+ 	if ((ctx = libhal_ctx_init_direct (&error)) == NULL)
+ 		goto out;
+ 
