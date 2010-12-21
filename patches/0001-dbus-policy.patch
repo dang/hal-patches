@@ -1,0 +1,93 @@
+diff '--exclude-from=/home/dang/.scripts/diffrc' -up -ruN hal-0.5.14.orig/hal.conf.in hal-0.5.14/hal.conf.in
+--- hal-0.5.14.orig/hal.conf.in	2009-02-04 17:07:23.000000000 -0500
++++ hal-0.5.14/hal.conf.in	2010-12-20 11:43:25.391985974 -0500
+@@ -10,12 +10,78 @@
+   <policy user="@HAL_USER@">
+     <allow own="org.freedesktop.Hal"/>
+   </policy>
++
++  <!-- root needs access to things for X, automount, powermanagement, etc. -->
+   <policy user="root">
+     <allow own="org.freedesktop.Hal"/>
++    <allow send_destination="org.freedesktop.Hal"
++        send_interface="org.freedesktop.Hal.Device"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Manager"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.KillSwitch"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.Leds"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.Storage"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.Storage.Removable"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.SystemPowerManagement"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.Volume"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.Volume.Crypto"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.WakeOnLan"/>
++  </policy>
++
++
++  <!-- Gentoo specific rules to allow 'plugdev' group to access Volumes and Power Management -->
++  <policy group="plugdev">
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.DBus.Introspectable"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.DBus.Properties" />
++
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Manager"/>
++
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.CPUFreq"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.DockStation"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.KillSwitch"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.KeyboardBacklight"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.LaptopPanel"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.Leds"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.LightSensor"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.Storage"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.Storage.Removable"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.SystemPowerManagement"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.Volume"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.Volume.Crypto"/>
++    <allow send_destination="org.freedesktop.Hal"
++    	   send_interface="org.freedesktop.Hal.Device.WakeOnLan"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.VideoAdapterPM"/>
++
+   </policy>
+ 
+-  <!-- Allow anyone to invoke methods on the Manager and Device interfaces -->
+-  <policy context="default">
++  <!-- Let at_console control it, since policykit is dead -->
++  <policy at_console="true">
+     <allow send_destination="org.freedesktop.Hal"
+            send_interface="org.freedesktop.DBus.Introspectable"/>
+     <allow send_destination="org.freedesktop.Hal"
+@@ -52,6 +118,8 @@
+     	   send_interface="org.freedesktop.Hal.Device.Volume.Crypto"/>
+     <allow send_destination="org.freedesktop.Hal"
+     	   send_interface="org.freedesktop.Hal.Device.WakeOnLan"/>
++    <allow send_destination="org.freedesktop.Hal"
++           send_interface="org.freedesktop.Hal.Device.VideoAdapterPM"/>
+ 
+   </policy>
+ 
