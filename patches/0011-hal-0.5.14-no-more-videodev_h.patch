@@ -1,0 +1,30 @@
+http://bugs.gentoo.org/359513
+http://cgit.freedesktop.org/hal/commit/?id=8f624253f0135ca77a893ad4e8168f51ef90d4da
+
+--- configure.in
++++ configure.in
+@@ -479,6 +479,9 @@
+ fi 
+ AM_CONDITIONAL([HAVE_LIBPCI], [test "x$USE_LIBPCI" = "xyes"])
+ 
++AC_CHECK_HEADERS([linux/videodev.h], [have_videodev_h=yes], [])
++AM_CONDITIONAL(HAVE_V4L1, [test "x$have_videodev_h" = "xyes"])
++
+ USE_LIBUSB20=no
+ USE_LIBUSB=no
+ LIBUSB20_LIBS=""
+--- hald/linux/probing/Makefile.am
++++ hald/linux/probing/Makefile.am
+@@ -19,8 +19,10 @@
+ 	hald-probe-smbios 		\
+ 	hald-probe-serial 		\
+ 	hald-probe-ieee1394-unit 	\
+-	hald-probe-net-bluetooth 	\
+-	hald-probe-video4linux
++	hald-probe-net-bluetooth
++if HAVE_V4L1
++libexec_PROGRAMS += hald-probe-video4linux
++endif
+ endif
+ 
+ hald_probe_smbios_SOURCES = probe-smbios.c ../../logger.c
